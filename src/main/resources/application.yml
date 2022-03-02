@@ -1,5 +1,15 @@
 server:
   port: 8083
+google:
+  find:
+    place:
+      url: https://maps.googleapis.com/maps/api/place/findplacefromtext/json?
+  search:
+    nearby:
+      url: https://maps.googleapis.com/maps/api/place/nearbysearch/json?
+  test:
+    api:
+      key:
 spring:
   datasource:
     password: select_food
