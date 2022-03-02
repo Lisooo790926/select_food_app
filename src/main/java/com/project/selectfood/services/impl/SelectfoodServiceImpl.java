@@ -27,17 +27,21 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
     private static final String ADDRESS = "address";
     private static final String LOCATION = "location";
+    private static final String RADIUS = "radius";
+    private static final String MAX_PRICE = "maxprice";
     private static final String COMA = ",";
 
     private static final String RADIUS_HEAD = "&radius=";
     private static final String INPUT_HAED = "&input=";
     private static final String LOCATION_HEAD = "&location=";
     private static final String KEY_HEAD = "&key=";
-    private static final String FIELDS = "&field=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry";
+    private static final String MAX_PRICE_HEAD = "&maxprice=";
+
+    private static final String FIELDS = "&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry";
     private static final String INPUTTYPE = "&inputtype=textquery";
     private static final String TYPES = "&types=restaurant";
     private static final String OPENNOW = "&opennow=true";
-
+    private static final String LANGUAGE = "&language=zh-TW";
 
     @Resource
     private ObjectMapper objectMapper;
@@ -51,7 +55,6 @@ public class SelectfoodServiceImpl implements SelectfoodService {
     @Value("${google.test.api.key}")
     private String apikey;
 
-
     @Override
     public FindingResult findPlaceByAddress(String address) {
         final String url = findPlaceUrl + FIELDS + INPUT_HAED + address + INPUTTYPE + KEY_HEAD + apikey;
@@ -63,10 +66,11 @@ public class SelectfoodServiceImpl implements SelectfoodService {
     public FindingResult searchNearbyPlaces(Map<String, String> attributes) {
 
         final String location = attributes.getOrDefault(LOCATION, Strings.EMPTY);
-        final String radius = attributes.getOrDefault(LOCATION, Strings.EMPTY);
-        final String url = searchNearbyUrl + LOCATION_HEAD + location + RADIUS_HEAD + radius + TYPES + OPENNOW + KEY_HEAD + apikey;
+        final String radius = attributes.getOrDefault(RADIUS, Strings.EMPTY);
+        final String priceLevel = attributes.getOrDefault(MAX_PRICE, Strings.EMPTY);
+        final String url = searchNearbyUrl + LOCATION_HEAD + location + RADIUS_HEAD + radius + TYPES + OPENNOW + LANGUAGE + MAX_PRICE_HEAD + priceLevel + KEY_HEAD + apikey;
 
-        log.info("Search nearby places in google api");
+        log.info("Search nearby places by location [{}] and radius [{}] in google api", location, radius);
         return sendAPIRequest(url);
     }
 
