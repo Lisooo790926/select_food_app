@@ -9,7 +9,7 @@ google:
       url: https://maps.googleapis.com/maps/api/place/nearbysearch/json?
   test:
     api:
-      key:
+      key: AIzaSyCny3GMP4sw7JKKJzQOwYJog5L5jDMHMrs
 spring:
   datasource:
     password: select_food

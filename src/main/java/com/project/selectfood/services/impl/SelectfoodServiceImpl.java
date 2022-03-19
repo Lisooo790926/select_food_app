@@ -83,7 +83,7 @@ public class SelectfoodServiceImpl implements SelectfoodService {
             final HttpResponse response = client.execute(getRequest);
 
             final String jsonString = EntityUtils.toString(response.getEntity());
-            log.info("response is [{}]", jsonString);
+//            log.info("response is [{}]", jsonString);
 
             return objectMapper.readValue(jsonString, FindingResult.class);
         } catch (Exception e) {
