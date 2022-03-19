@@ -11,7 +11,7 @@
 
 
 ## Wireframe 
-![image](https://user-images.githubusercontent.com/48560984/156291095-85bd5a9a-719c-4d21-b077-89ef3cf0a92c.png)
+![image](https://user-images.githubusercontent.com/48560984/159118882-d1701f20-ecdf-4b19-a7ff-64a948f29fe2.png)
 
 ## Tools
 **back** : spring boot maven project  
