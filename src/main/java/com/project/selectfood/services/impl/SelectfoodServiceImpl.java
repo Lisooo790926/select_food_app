@@ -1,6 +1,7 @@
 package com.project.selectfood.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.selectfood.constants.SelectFoodConstant;
 import com.project.selectfood.data.FindingPlace;
 import com.project.selectfood.data.FindingResult;
 import com.project.selectfood.data.Location;
@@ -17,9 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -74,27 +74,8 @@ public class SelectfoodServiceImpl implements SelectfoodService {
         return sendAPIRequest(url);
     }
 
-    private FindingResult sendAPIRequest(final String url) {
-
-        HttpGet getRequest = new HttpGet(url);
-
-        try {
-            HttpClient client = HttpClientBuilder.create().build();
-            final HttpResponse response = client.execute(getRequest);
-
-            final String jsonString = EntityUtils.toString(response.getEntity());
-//            log.info("response is [{}]", jsonString);
-
-            return objectMapper.readValue(jsonString, FindingResult.class);
-        } catch (Exception e) {
-            log.error("failed in getting response from api with error ", e);
-        }
-
-        return new FindingResult();
-    }
-
     @Override
-    public FindingResult selectFoodByRandom(Map<String, String> attributes) {
+    public FindingResult selectFoodsByAddress(Map<String, String> attributes) {
 
         FindingResult result = new FindingResult();
 
@@ -110,11 +91,89 @@ public class SelectfoodServiceImpl implements SelectfoodService {
         return searchNearbyPlaces(attributes);
     }
 
+    @Override
+    public List<FindingPlace> filterResult(final Map<String, String> attributes, final FindingResult result) {
+
+        if (CollectionUtils.isEmpty(result.getResults())) return Collections.emptyList();
+
+        try {
+            // filter by rating and total rating
+            final String rating = attributes.get(SelectFoodConstant.RATING);
+            final String user_ratings_total = attributes.get(SelectFoodConstant.USER_RATE_TOTAL);
+
+            return filterPlacesByLimit(result, rating, user_ratings_total);
+        } catch (NumberFormatException e) {
+            log.error("The format is wrong", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public FindingPlace getMaxRandomResult(final Map<String, String> attributes, final List<FindingPlace> update) {
+
+        final String randomTime_str = attributes.get(SelectFoodConstant.RANDOM_TIME);
+        int randomTimes = Strings.isNotEmpty(randomTime_str) && randomTime_str.matches("^[0-9]+$]") ?
+                Integer.parseInt(randomTime_str) : SelectFoodConstant.DEFAULT_RANDOM_TIME;
+
+        final Map<FindingPlace, Integer> randomResult = new HashMap<>();
+        PrimitiveIterator.OfInt iterator = new Random().ints(0, update.size()).iterator();
+        int max = 0;
+        FindingPlace result = new FindingPlace();
+        while (randomTimes-- > 0) {
+            FindingPlace key = update.get(iterator.nextInt());
+            int count = randomResult.getOrDefault(key, 0) + 1;
+            randomResult.put(key, count);
+            if (count > max) {
+                max = count;
+                result = key;
+            }
+        }
+        return result;
+    }
+
+    private List<FindingPlace> filterPlacesByLimit(final FindingResult result, final String rating,
+                                                   final String userRatingsTotal) {
+
+        double rating_limit = Strings.isNotBlank(rating) && rating.matches("^[0-9]+.?[0-9]*$") ?
+                Double.parseDouble(rating) : SelectFoodConstant.DEFAULT_RATING;
+        double user_ratings_total_limit = Strings.isNotBlank(userRatingsTotal) && userRatingsTotal.matches("^[0-9]+.?[0-9]*$") ?
+                Double.parseDouble(userRatingsTotal) : SelectFoodConstant.DEFAULT_USER_RATE_TOTAL;
+
+        return result.getResults().stream()
+                .filter(place -> isLargerThanLimit(place, user_ratings_total_limit, rating_limit))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isLargerThanLimit(final FindingPlace place, double user_ratings_total_limit, double rating_limit) {
+        return (Objects.nonNull(place.getUser_ratings_total())
+                && Double.compare(place.getUser_ratings_total(), user_ratings_total_limit) >= 0)
+                && (Objects.nonNull(place.getRating()) && Double.compare(place.getRating(), rating_limit) >= 0);
+    }
+
     private boolean isUnAvailableCandidates(final List<FindingPlace> candidates) {
         return CollectionUtils.isEmpty(candidates)
                 || Objects.isNull(candidates.get(0))
                 || Objects.isNull(candidates.get(0).getGeometry())
                 || Objects.isNull(candidates.get(0).getGeometry().get(LOCATION));
+    }
+
+    private FindingResult sendAPIRequest(final String url) {
+
+        HttpGet getRequest = new HttpGet(url);
+
+        try {
+            HttpClient client = HttpClientBuilder.create().build();
+            final HttpResponse response = client.execute(getRequest);
+
+            final String jsonString = EntityUtils.toString(response.getEntity());
+            log.info("response is [{}]", jsonString);
+
+            return objectMapper.readValue(jsonString, FindingResult.class);
+        } catch (Exception e) {
+            log.error("failed in getting response from api with error ", e);
+        }
+
+        return new FindingResult();
     }
 
 }
