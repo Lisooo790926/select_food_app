@@ -1,5 +1,7 @@
 package com.project.selectfood.services;
 
+import com.project.selectfood.data.AdditionalItem;
+import com.project.selectfood.data.FindingHistory;
 import com.project.selectfood.data.FindingPlace;
 import com.project.selectfood.data.FindingResult;
 
@@ -17,4 +19,16 @@ public interface SelectfoodService {
     List<FindingPlace> filterResult(final Map<String, String> attributes, final FindingResult result);
 
     FindingPlace getMaxRandomResult(final Map<String, String> attributes, final List<FindingPlace> update);
+
+    List<AdditionalItem> getAllItems();
+
+    AdditionalItem save(final AdditionalItem item);
+
+    void removeAdditionItem(final Long code);
+
+    List<FindingHistory> getAllHistories();
+
+    FindingHistory save(final FindingPlace history);
+
+    void removeFindingHistory(final Long code);
 }

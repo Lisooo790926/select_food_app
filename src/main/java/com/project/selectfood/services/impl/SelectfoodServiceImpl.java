@@ -2,14 +2,16 @@ package com.project.selectfood.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.selectfood.constants.SelectFoodConstant;
-import com.project.selectfood.data.FindingPlace;
-import com.project.selectfood.data.FindingResult;
-import com.project.selectfood.data.Location;
+import com.project.selectfood.data.*;
+import com.project.selectfood.repository.AdditionItemsRepo;
+import com.project.selectfood.repository.FindingHistoryRepo;
 import com.project.selectfood.services.SelectfoodService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.util.Strings;
@@ -17,59 +19,72 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class SelectfoodServiceImpl implements SelectfoodService {
 
-    private static final String ADDRESS = "address";
-    private static final String LOCATION = "location";
-    private static final String RADIUS = "radius";
-    private static final String MAX_PRICE = "maxprice";
     private static final String COMA = ",";
 
-    private static final String RADIUS_HEAD = "&radius=";
-    private static final String INPUT_HAED = "&input=";
-    private static final String LOCATION_HEAD = "&location=";
-    private static final String KEY_HEAD = "&key=";
-    private static final String MAX_PRICE_HEAD = "&maxprice=";
+    private final ObjectMapper objectMapper;
+    private final AdditionItemsRepo additionItemsRepo;
+    private final FindingHistoryRepo findingHistoryRepo;
 
-    private static final String FIELDS = "&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry";
-    private static final String INPUTTYPE = "&inputtype=textquery";
-    private static final String TYPES = "&types=restaurant";
-    private static final String OPENNOW = "&opennow=true";
-    private static final String LANGUAGE = "&language=zh-TW";
+    @Value("${google.host.schema}")
+    private String hostSchema;
 
-    @Resource
-    private ObjectMapper objectMapper;
+    @Value("${google.place.url}")
+    private String placeApiUrl;
 
-    @Value("${google.find.place.url}")
-    private String findPlaceUrl;
+    @Value("${google.findfromtext.url}")
+    private String findFromTextUrl;
 
-    @Value("${google.search.nearby.url}")
+    @Value("${google.searchnearby.url}")
     private String searchNearbyUrl;
 
-    @Value("${google.test.api.key}")
+    @Value("${google.api.key}")
     private String apikey;
 
     @Override
     public FindingResult findPlaceByAddress(String address) {
-        final String url = findPlaceUrl + FIELDS + INPUT_HAED + address + INPUTTYPE + KEY_HEAD + apikey;
-        log.info("Finding address [{}] in google api", address);
+
+        final URIBuilder builder = new URIBuilder();
+        builder.setPath(findFromTextUrl)
+                .addParameter(SelectFoodConstant.FIELDS, "formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry")
+                .addParameter(SelectFoodConstant.INPUT, address)
+                .addParameter(SelectFoodConstant.INPUTTYPE, "textquery")
+                .addParameter(SelectFoodConstant.OPENNOW, "true")
+                .addParameter(SelectFoodConstant.LANGUAGE, "zh-TW");
+
+        final String url = getUrlByBuilder(builder);
+        log.info("Finding address [{}] in google api [{}]", address, url);
         return sendAPIRequest(url);
     }
 
     @Override
     public FindingResult searchNearbyPlaces(Map<String, String> attributes) {
 
-        final String location = attributes.getOrDefault(LOCATION, Strings.EMPTY);
-        final String radius = attributes.getOrDefault(RADIUS, Strings.EMPTY);
-        final String priceLevel = attributes.getOrDefault(MAX_PRICE, Strings.EMPTY);
-        final String url = searchNearbyUrl + LOCATION_HEAD + location + RADIUS_HEAD + radius + TYPES + OPENNOW + LANGUAGE + MAX_PRICE_HEAD + priceLevel + KEY_HEAD + apikey;
+        final String location = attributes.getOrDefault(SelectFoodConstant.LOCATION, Strings.EMPTY);
+        final String radius = attributes.getOrDefault(SelectFoodConstant.RADIUS, SelectFoodConstant.DEFAULT_RADIUS);
+        final String priceLevel = attributes.getOrDefault(SelectFoodConstant.MAXPRICE, Strings.EMPTY);
 
+        final URIBuilder builder = new URIBuilder();
+        builder.setPath(searchNearbyUrl)
+                .addParameter(SelectFoodConstant.LOCATION, location)
+                .addParameter(SelectFoodConstant.RADIUS, radius)
+                .addParameter(SelectFoodConstant.TYPES, "restaurant")
+                .addParameter(SelectFoodConstant.OPENNOW, "true")
+                .addParameter(SelectFoodConstant.LANGUAGE, "zh-TW")
+                .addParameter(SelectFoodConstant.MAXPRICE, priceLevel)
+                .addParameter(SelectFoodConstant.KEY, apikey);
+
+        final String url = getUrlByBuilder(builder);
         log.info("Search nearby places by location [{}] and radius [{}] in google api", location, radius);
         return sendAPIRequest(url);
     }
@@ -79,14 +94,14 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
         FindingResult result = new FindingResult();
 
-        final String address = attributes.getOrDefault(ADDRESS, Strings.EMPTY);
+        final String address = attributes.getOrDefault(SelectFoodConstant.ADDRESS, Strings.EMPTY);
         FindingResult curPlace = findPlaceByAddress(address);
 
         final List<FindingPlace> candidates = curPlace.getCandidates();
         if (isUnAvailableCandidates(candidates)) return result;
 
-        Location location = candidates.get(0).getGeometry().get(LOCATION);
-        attributes.put(LOCATION, location.getLat() + COMA + location.getLng());
+        Location location = candidates.get(0).getGeometry().get(SelectFoodConstant.LOCATION);
+        attributes.put(SelectFoodConstant.LOCATION, location.getLat() + COMA + location.getLng());
 
         return searchNearbyPlaces(attributes);
     }
@@ -97,11 +112,15 @@ public class SelectfoodServiceImpl implements SelectfoodService {
         if (CollectionUtils.isEmpty(result.getResults())) return Collections.emptyList();
 
         try {
-            // filter by rating and total rating
             final String rating = attributes.get(SelectFoodConstant.RATING);
             final String user_ratings_total = attributes.get(SelectFoodConstant.USER_RATE_TOTAL);
 
-            return filterPlacesByLimit(result, rating, user_ratings_total);
+            final List<FindingPlace> additionalItems = getAllItems().stream().map(this::populate).collect(Collectors.toList());
+            final List<FindingPlace> findingPlaces = filterPlacesByLimit(result, rating, user_ratings_total);
+            findingPlaces.addAll(additionalItems);
+
+            return findingPlaces;
+
         } catch (NumberFormatException e) {
             log.error("The format is wrong", e);
             return Collections.emptyList();
@@ -128,7 +147,52 @@ public class SelectfoodServiceImpl implements SelectfoodService {
                 result = key;
             }
         }
+        save(result);
         return result;
+    }
+
+    @Override
+    public List<AdditionalItem> getAllItems() {
+        return additionItemsRepo.findAll();
+    }
+
+    @Transactional
+    @Override
+    public AdditionalItem save(AdditionalItem item) {
+        return additionItemsRepo.save(item);
+    }
+
+    @Transactional
+    @Override
+    public void removeAdditionItem(Long code) {
+        additionItemsRepo.deleteById(code);
+    }
+
+    @Override
+    public List<FindingHistory> getAllHistories() {
+        return findingHistoryRepo.findAll();
+    }
+
+    @Transactional
+    @Override
+    public FindingHistory save(FindingPlace place) {
+        return findingHistoryRepo.save(populate(place));
+    }
+
+    @Transactional
+    @Override
+    public void removeFindingHistory(Long code) {
+        findingHistoryRepo.deleteById(code);
+    }
+
+    private String getUrlByBuilder(final URIBuilder builder) {
+        try {
+            return builder.setScheme(hostSchema).setHost(placeApiUrl)
+                    .build().toString();
+        } catch (URISyntaxException e) {
+            log.error("Syntax Exception while building url");
+            throw new IllegalArgumentException("URI building exception ", e);
+        }
     }
 
     private List<FindingPlace> filterPlacesByLimit(final FindingResult result, final String rating,
@@ -154,7 +218,7 @@ public class SelectfoodServiceImpl implements SelectfoodService {
         return CollectionUtils.isEmpty(candidates)
                 || Objects.isNull(candidates.get(0))
                 || Objects.isNull(candidates.get(0).getGeometry())
-                || Objects.isNull(candidates.get(0).getGeometry().get(LOCATION));
+                || Objects.isNull(candidates.get(0).getGeometry().get(SelectFoodConstant.LOCATION));
     }
 
     private FindingResult sendAPIRequest(final String url) {
@@ -174,6 +238,19 @@ public class SelectfoodServiceImpl implements SelectfoodService {
         }
 
         return new FindingResult();
+    }
+
+    private FindingHistory populate(final FindingPlace place) {
+        FindingHistory history = new FindingHistory();
+        history.setDate(LocalDateTime.now());
+        history.setName(place.getName());
+        return history;
+    }
+
+    private FindingPlace populate(final AdditionalItem item) {
+        FindingPlace place = new FindingPlace();
+        place.setName(item.getName());
+        return place;
     }
 
 }
