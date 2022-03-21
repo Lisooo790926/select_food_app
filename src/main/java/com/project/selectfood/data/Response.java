@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
@@ -13,7 +12,6 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
 
-    protected LocalDateTime timeStamp;
     protected HttpStatus status;
     protected String message;
     protected Map<?, ?> data;

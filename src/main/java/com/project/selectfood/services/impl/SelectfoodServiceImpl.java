@@ -56,10 +56,11 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
         final URIBuilder builder = new URIBuilder();
         builder.setPath(findFromTextUrl)
-                .addParameter(SelectFoodConstant.FIELDS, "formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry")
+                .addParameter(SelectFoodConstant.FIELDS, "formatted_address,name,rating,opening_hours,geometry")
                 .addParameter(SelectFoodConstant.INPUT, address)
                 .addParameter(SelectFoodConstant.INPUTTYPE, "textquery")
                 .addParameter(SelectFoodConstant.OPENNOW, "true")
+                .addParameter(SelectFoodConstant.KEY, apikey)
                 .addParameter(SelectFoodConstant.LANGUAGE, "zh-TW");
 
         final String url = getUrlByBuilder(builder);
@@ -129,6 +130,8 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
     @Override
     public FindingPlace getMaxRandomResult(final Map<String, String> attributes, final List<FindingPlace> update) {
+
+        if (CollectionUtils.isEmpty(update)) return new FindingPlace();
 
         final String randomTime_str = attributes.get(SelectFoodConstant.RANDOM_TIME);
         int randomTimes = Strings.isNotEmpty(randomTime_str) && randomTime_str.matches("^[0-9]+$]") ?

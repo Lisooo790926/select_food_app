@@ -10,8 +10,6 @@ services:
     environment:
       POSTGRES_DB: "select_food"
       POSTGRES_HOST_AUTH_METHOD: "trust"
-      POSTGRES_USER: "select_food"
-      POSTGRES_PASSWORD: "select_food"
     networks:
       - select_food_network
 

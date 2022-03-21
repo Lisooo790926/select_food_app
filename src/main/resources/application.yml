@@ -11,11 +11,12 @@ google:
     url: /nearbysearch/json
   api:
     key:
+
 spring:
   datasource:
-    password: select_food
+    password: postgres
     url: jdbc:postgresql://localhost:9006/select_food
-    username: select_food
+    username: postgres
   jpa:
     hibernate:
       ddl-auto: create
