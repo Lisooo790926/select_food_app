@@ -1,82 +1,95 @@
 package com.project.selectfood.controllers;
 
+import com.project.selectfood.data.AdditionalItem;
 import com.project.selectfood.data.FindingPlace;
 import com.project.selectfood.data.FindingResult;
+import com.project.selectfood.data.Response;
 import com.project.selectfood.services.impl.SelectfoodServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
-import org.springframework.util.CollectionUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/selectfood")
+@RequiredArgsConstructor
 public class SelectfoodController {
 
-    private static final String RATING = "rating";
-    private static final String USER_RATE_TOTAL = "user_ratings_total";
-    private static final String RANDOM_TIME = "random_time";
-
-    @Resource
-    private SelectfoodServiceImpl selectfoodService;
+    private final SelectfoodServiceImpl selectfoodService;
 
     @PostMapping("/random")
-    public FindingPlace selectFoodByRandom(@RequestBody final Map<String, String> attributes) {
+    public ResponseEntity<Response> selectFoodByRandom(@RequestBody final Map<String, String> attributes) {
+
         log.info("Coming map is [{}]", attributes);
-        FindingResult result = selectfoodService.selectFoodByRandom(attributes);
-
-        // filter by rating and total rating
-        final String rating = attributes.getOrDefault(RATING, Strings.EMPTY);
-        final String user_ratings_total = attributes.getOrDefault(USER_RATE_TOTAL, Strings.EMPTY);
-        final String randomTime_str = attributes.getOrDefault(RANDOM_TIME, Strings.EMPTY);
-
-        if (CollectionUtils.isEmpty(result.getResults())) return new FindingPlace();
-
-        double rating_limit, user_ratings_total_limit;
-        int randomTimes;
-        try {
-            rating_limit = Double.parseDouble(rating);
-            user_ratings_total_limit = Double.parseDouble(user_ratings_total);
-            randomTimes = Integer.parseInt(randomTime_str);
-        } catch (NumberFormatException e) {
-            log.error("The format is wrong", e);
-            FindingPlace findingPlace = new FindingPlace();
-            findingPlace.setErrorMessage("The format is wrong");
-            return findingPlace;
-        }
-
-        final List<FindingPlace> update = result.getResults().stream()
-                .filter(place -> (Objects.nonNull(place.getUser_ratings_total()) && place.getUser_ratings_total() >= user_ratings_total_limit)
-                        && (Objects.nonNull(place.getRating()) && place.getRating() >= rating_limit)).collect(Collectors.toList());
-
-        log.info("getting random result");
-        return getMaxRandomResult(randomTimes, update);
+        final FindingResult result = selectfoodService.selectFoodsByAddress(attributes);
+        final List<FindingPlace> findingPlaces = selectfoodService.filterResult(attributes, result);
+        return ResponseEntity.ok(
+                Response.builder()
+                        .message("find the place result")
+                        .data(Map.of("placeResult", selectfoodService.getMaxRandomResult(attributes, findingPlaces)))
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
-    private FindingPlace getMaxRandomResult(int randomTimes, final List<FindingPlace> update) {
-        final Map<FindingPlace, Integer> randomResult = new HashMap<>();
-        PrimitiveIterator.OfInt iterator = new Random().ints(0, update.size()).iterator();
-        int max = 0;
-        FindingPlace result = new FindingPlace();
-        while (randomTimes-- > 0) {
-            FindingPlace key = update.get(iterator.nextInt());
-            int count = randomResult.getOrDefault(key, 0) + 1;
-            randomResult.put(key, count);
-            if (count > max) {
-                max = count;
-                result = key;
-            }
-        }
-        return result;
+    @PostMapping("/save/additional-item")
+    public ResponseEntity<Response> saveAdditionalItem(@RequestBody AdditionalItem additionalItem) {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .message("save the additional item")
+                        .data(Map.of("saveItem", selectfoodService.save(additionalItem)))
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
-    @GetMapping
-    public String helloWorld() {
-        return "hello world";
+    @DeleteMapping("/delete/additional-item/{code}")
+    public ResponseEntity<Response> removeAdditionalItem(@PathVariable String code) {
+        selectfoodService.removeAdditionItem(Long.valueOf(code));
+        return ResponseEntity.ok(
+                Response.builder()
+                        .message("remove the additional item")
+                        .status(HttpStatus.OK)
+                        .build()
+        );
+    }
+
+    @GetMapping("/all/additional-item")
+    public ResponseEntity<Response> getAdditionalItems() {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .message("all additional items")
+                        .data(Map.of("additionalItems", selectfoodService.getAllItems()))
+                        .status(HttpStatus.OK)
+                        .build()
+        );
+    }
+
+    @GetMapping("/all/finding-history")
+    public ResponseEntity<Response> getFindingHistories() {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .message("all finding histories")
+                        .data(Map.of("histories", selectfoodService.getAllHistories()))
+                        .status(HttpStatus.OK)
+                        .build()
+        );
+    }
+
+    @DeleteMapping("/delete/finding-history/{code}")
+    public ResponseEntity<Response> removeFindingHistory(@PathVariable String code) {
+        selectfoodService.removeFindingHistory(Long.valueOf(code));
+        return ResponseEntity.ok(
+                Response.builder()
+                        .message("remove the finding history")
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 }
