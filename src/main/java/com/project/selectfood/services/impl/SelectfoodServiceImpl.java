@@ -245,7 +245,7 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
     private FindingHistory populate(final FindingPlace place) {
         FindingHistory history = new FindingHistory();
-        history.setDate(LocalDateTime.now());
+        history.setDate(new Date());
         history.setName(place.getName());
         return history;
     }
