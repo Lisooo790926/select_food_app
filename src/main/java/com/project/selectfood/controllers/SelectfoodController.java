@@ -32,7 +32,7 @@ public class SelectfoodController {
         return ResponseEntity.ok(
                 Response.builder()
                         .message("find the place result")
-                        .data(Map.of("placeResult", selectfoodService.getMaxRandomResult(attributes, findingPlaces)))
+                        .data(Map.of("destResponse", selectfoodService.getMaxRandomResult(attributes, findingPlaces)))
                         .status(HttpStatus.OK)
                         .build()
         );

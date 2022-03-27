@@ -20,4 +20,7 @@ public class AdditionalItem {
     @Column(unique = true)
     @NotEmpty(message = "Restaurant name")
     private String name;
+
+    @Column(columnDefinition = "int default 1")
+    private int count;
 }
