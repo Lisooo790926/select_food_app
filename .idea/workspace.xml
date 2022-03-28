@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:feature" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="12093cfa-4b69-41cf-834f-5bf3a75c74a2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/SelectfoodApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/config/SelectfoodConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/constants/SelectFoodConstant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/controllers/CustomizeExceptionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/controllers/SelectfoodController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/data/AdditionalItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/data/FindingHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/data/FindingPlace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/data/FindingResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/data/Location.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/data/Response.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/repository/AdditionItemsRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/repository/FindingHistoryRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/services/SelectfoodService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/selectfood/services/impl/SelectfoodServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/project/selectfood/SelectfoodApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$USER_HOME$/.m2/wrapper/dists/apache-maven-3.8.4-bin/52ccbt68d252mdldqsfsn03jlf/apache-maven-3.8.4" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="25mqoryLn4fvwRcXQcaSkNeQ0cT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.zeroturnaround.javarebel.idea.plugin.settings.JRebelSettingsComponent" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.project.selectfood.repository" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SelectfoodApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="selectfood" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.project.selectfood.SelectfoodApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="12093cfa-4b69-41cf-834f-5bf3a75c74a2" name="Default Changelist" comment="" />
+      <created>1646142790739</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646142790739</updated>
+      <workItem from="1646142792693" duration="17859000" />
+      <workItem from="1647677834782" duration="19111000" />
+      <workItem from="1647829337932" duration="141000" />
+      <workItem from="1648283940324" duration="14859000" />
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="109" y="40" width="546" height="756" key="#Auto_Import" timestamp="1646154078475">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="109" y="40" width="546" height="756" key="#Auto_Import/0.27.1536.769@0.27.1536.769" timestamp="1646154078475" />
+    <state x="230" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1647824542880">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="230" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1536.769@0.27.1536.769" timestamp="1647824542880" />
+    <state x="243" y="104" width="374" height="597" key="#com.intellij.ide.util.MemberChooser" timestamp="1647816957452">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="243" y="104" width="374" height="597" key="#com.intellij.ide.util.MemberChooser/0.27.1536.769@0.27.1536.769" timestamp="1647816957452" />
+    <state x="439" y="22" width="1070" height="495" key="#xdebugger.evaluate" timestamp="1648426044382">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="439" y="22" width="1070" height="495" key="#xdebugger.evaluate/0.27.1536.769@0.27.1536.769" timestamp="1648426044382" />
+    <state x="238" y="135" width="376" height="625" key="FileChooserDialogImpl" timestamp="1648430100323">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="238" y="135" width="376" height="625" key="FileChooserDialogImpl/0.27.1536.769@0.27.1536.769" timestamp="1648430100323" />
+    <state x="476" y="140" width="579" height="597" key="FileChooserDialogImpl/0.27.3072.769@0.27.3072.769" timestamp="1646200042560" />
+    <state width="1490" height="219" key="GridCell.Tab.0.bottom" timestamp="1648430109631">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.0.bottom/0.27.1536.769@0.27.1536.769" timestamp="1648430109631" />
+    <state width="1490" height="213" key="GridCell.Tab.0.bottom/0.27.3072.769@0.27.3072.769" timestamp="1646200067078" />
+    <state width="1490" height="219" key="GridCell.Tab.0.center" timestamp="1648430109631">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.0.center/0.27.1536.769@0.27.1536.769" timestamp="1648430109631" />
+    <state width="1490" height="213" key="GridCell.Tab.0.center/0.27.3072.769@0.27.3072.769" timestamp="1646200067078" />
+    <state width="1490" height="219" key="GridCell.Tab.0.left" timestamp="1648430109631">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.0.left/0.27.1536.769@0.27.1536.769" timestamp="1648430109631" />
+    <state width="1490" height="213" key="GridCell.Tab.0.left/0.27.3072.769@0.27.3072.769" timestamp="1646200067078" />
+    <state width="1490" height="219" key="GridCell.Tab.0.right" timestamp="1648430109631">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.0.right/0.27.1536.769@0.27.1536.769" timestamp="1648430109631" />
+    <state width="1490" height="213" key="GridCell.Tab.0.right/0.27.3072.769@0.27.3072.769" timestamp="1646200067078" />
+    <state width="1490" height="219" key="GridCell.Tab.1.bottom" timestamp="1648430109632">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.1.bottom/0.27.1536.769@0.27.1536.769" timestamp="1648430109632" />
+    <state width="1490" height="213" key="GridCell.Tab.1.bottom/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state width="1490" height="219" key="GridCell.Tab.1.center" timestamp="1648430109631">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.1.center/0.27.1536.769@0.27.1536.769" timestamp="1648430109631" />
+    <state width="1490" height="213" key="GridCell.Tab.1.center/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state width="1490" height="219" key="GridCell.Tab.1.left" timestamp="1648430109631">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.1.left/0.27.1536.769@0.27.1536.769" timestamp="1648430109631" />
+    <state width="1490" height="213" key="GridCell.Tab.1.left/0.27.3072.769@0.27.3072.769" timestamp="1646200067078" />
+    <state width="1490" height="219" key="GridCell.Tab.1.right" timestamp="1648430109632">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.1.right/0.27.1536.769@0.27.1536.769" timestamp="1648430109632" />
+    <state width="1490" height="213" key="GridCell.Tab.1.right/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state width="1490" height="219" key="GridCell.Tab.2.bottom" timestamp="1648430109632">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.2.bottom/0.27.1536.769@0.27.1536.769" timestamp="1648430109632" />
+    <state width="1490" height="213" key="GridCell.Tab.2.bottom/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state width="1490" height="219" key="GridCell.Tab.2.center" timestamp="1648430109632">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.2.center/0.27.1536.769@0.27.1536.769" timestamp="1648430109632" />
+    <state width="1490" height="213" key="GridCell.Tab.2.center/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state width="1490" height="219" key="GridCell.Tab.2.left" timestamp="1648430109632">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.2.left/0.27.1536.769@0.27.1536.769" timestamp="1648430109632" />
+    <state width="1490" height="213" key="GridCell.Tab.2.left/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state width="1490" height="219" key="GridCell.Tab.2.right" timestamp="1648430109632">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="1490" height="219" key="GridCell.Tab.2.right/0.27.1536.769@0.27.1536.769" timestamp="1648430109632" />
+    <state width="1490" height="213" key="GridCell.Tab.2.right/0.27.3072.769@0.27.3072.769" timestamp="1646200067079" />
+    <state x="304" y="50" width="924" height="696" key="Maven.ArtifactSearchDialog" timestamp="1648285132702">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="304" y="50" width="924" height="696" key="Maven.ArtifactSearchDialog/0.27.1536.769@0.27.1536.769" timestamp="1648285132702" />
+    <state x="150" y="98" width="1228" height="657" key="MergeDialog" timestamp="1646143343608">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="150" y="98" width="1228" height="657" key="MergeDialog/0.27.1536.769@0.27.1536.769" timestamp="1646143343608" />
+    <state x="401" y="174" width="729" height="487" key="MultipleFileMergeDialog" timestamp="1646143344621">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="401" y="174" width="729" height="487" key="MultipleFileMergeDialog/0.27.1536.769@0.27.1536.769" timestamp="1646143344621" />
+    <state x="176" y="22" width="787" height="769" key="NewModule_or_Project.wizard" timestamp="1648430104549">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="176" y="22" width="787" height="769" key="NewModule_or_Project.wizard/0.27.1536.769@0.27.1536.769" timestamp="1648430104549" />
+    <state x="352" y="173" width="832" height="585" key="NewModule_or_Project.wizard/0.27.3072.769@0.27.3072.769" timestamp="1646200060276" />
+    <state x="545" y="90" width="441" height="655" key="VCS.ChangeListViewerDialog" timestamp="1648424730718">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="545" y="90" width="441" height="655" key="VCS.ChangeListViewerDialog/0.27.1536.769@0.27.1536.769" timestamp="1648424730718" />
+    <state width="768" height="387" key="XDebugger.FullValuePopup" timestamp="1647822849237">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state width="768" height="387" key="XDebugger.FullValuePopup/0.27.1536.769@0.27.1536.769" timestamp="1647822849237" />
+    <state x="457" y="148" width="621" height="522" key="find.popup" timestamp="1647824121640">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="457" y="148" width="621" height="522" key="find.popup/0.27.1536.769@0.27.1536.769" timestamp="1647824121640" />
+    <state x="431" y="117" width="672" height="678" key="search.everywhere.popup" timestamp="1647824070560">
+      <screen x="0" y="27" width="1536" height="769" />
+    </state>
+    <state x="431" y="117" width="672" height="678" key="search.everywhere.popup/0.27.1536.769@0.27.1536.769" timestamp="1647824070560" />
+  </component>
+</project>
