@@ -1,4 +1,4 @@
 export interface AdditionItem{
-    code:string;
+    code?:string;
     name:string;
 }

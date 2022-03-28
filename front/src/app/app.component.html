@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row m-2"><h2 class="text-center">Select Food</h2></div>
     <div class="row">
-        <div class="col-7">
+        <div class="section1 col-7">
             <form #conditionForm="ngForm" class="form-control" (ngSubmit)="submitCondition(conditionForm)">
                 <div class="form-group col-12">
                     <label>Rating (>=)</label>
@@ -17,11 +17,11 @@
                 </div>
                 <div class="form-group col-12">
                     <label>Radius (<=(m))</label>
-                            <input type="number" ngModel="500" name="radius" class="form-control" required>
+                    <input type="number" ngModel="500" name="radius" class="form-control" required>
                 </div>
                 <div class="form-group col-12">
                     <label>Max Price (<=) (1-5)</label>
-                            <input type="number" ngModel="2" name="maxPrice" class="form-control" required>
+                    <input type="number" ngModel="2" name="maxPrice" class="form-control" required>
                 </div>
                 <div class="form-group col-12">
                     <label>Address</label>
@@ -48,27 +48,46 @@
                 </div>
             </form>
         </div>
-        <div class="col-4 ml-1" *ngIf="(additionalItems$ | async) as additionalItem">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Additional Items List</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <ng-container *ngFor="let item of additionalItem.appData; let i=index">
-                            <td>{{item.name}}</td>
+        <div class="section2 col-4 ml-1">
+            <h4>Additional Items List</h4>
+            <div class="scrollit">
+                <table class="table" *ngIf="(additionalItems$ | async) as additionalItems">
+                    <tbody class="table-body">
+                        <ng-container *ngFor="let item of additionalItems.appData; let i=index">
+                            <tr>
+                                <td>{{item.code}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" (click)="deleteAdditionItem(item.code)">DELETE</button>
+                                </td>
+                            </tr>
                         </ng-container>
-                    </tr>
-                </tbody>
-            </table>
-            <form #additionItemForm="ngForm" class="form-control" (ngSubmit)="addAdditionItem(additionItemForm)">
-                <div class="form-group mt-5">
-                    <input type="text" name="name" class="form-control" placeholder="Additional Item Name">
+                    </tbody>
+                </table>
+            </div>
+            <form #additionItemForm="ngForm" class="form-control mt-2" (ngSubmit)="addAdditionItem(additionItemForm)">
+                <div class="form-group">
+                    <label>Add more additional item</label>
+                    <input type="text" ngModel name="name" class="form-control" placeholder="Additional Item Name">
                 </div>
                 <button type="submit" class="btn btn-success btn-block mt-2 col-12">Add Additional Item</button>
             </form>
+            <h4 class="mt-4">Finding History</h4>
+            <div class="scrollit">
+                <table class="table" *ngIf="(histories$ | async) as histories">
+                    <tbody>
+                        <ng-container *ngFor="let history of histories.appData.reverse(); let i=index">
+                            <tr>
+                                <td>{{history.name}}</td>
+                                <td>{{history.date | date :'short'}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" (click)="deleteHistory(history.code)">Delete</button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

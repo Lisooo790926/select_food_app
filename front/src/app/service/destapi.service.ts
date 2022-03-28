@@ -51,6 +51,13 @@ export class DestapiService {
         catchError(this.handleError)
       )
 
+  deleteHistory$ = (code: string) => <Observable<CustomResponse>>
+    this.http.delete<CustomResponse>(`${this.apiUrl}/selectfood/delete/finding-history/${code}`)
+    .pipe(
+      tap(console.log),
+      catchError(this.handleError)
+    )
+
   private handleError(error: CustomResponse): Observable<never> {
     console.log(error);
     return throwError(`An error occurred - Error code : ${error.status}`);

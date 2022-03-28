@@ -8,6 +8,7 @@ import { AppState } from './interface/app.state';
 import { Condition } from './interface/conditions';
 import { CustomResponse } from './interface/custom.response';
 import { DestResponse } from './interface/dest.response';
+import { FindingHistory } from './interface/finding.history';
 import { DestapiService } from './service/destapi.service';
 
 @Component({
@@ -19,16 +20,18 @@ export class AppComponent implements OnInit {
   
   readonly DataState = DataState;
   destResponse$:Observable<AppState<DestResponse>>;
-  additionalItem$:Observable<AppState<AdditionItem>>;
   additionalItems$:Observable<AppState<AdditionItem[]>>;
+  histories$:Observable<AppState<FindingHistory[]>>;
 
   destResponse_cur = new BehaviorSubject<DestResponse>(null);
   additionItems = new BehaviorSubject<AdditionItem[]>(null);
+  histories = new BehaviorSubject<FindingHistory[]>(null);
 
   constructor(private destapiService: DestapiService) { }
 
   ngOnInit(): void {
     this.getAdditionItems();
+    this.getHistories();
   }
 
   // fetch all current resturant items
@@ -37,6 +40,7 @@ export class AppComponent implements OnInit {
       .pipe(
         map(result=>{
           this.destResponse_cur.next(result.data.destResponse as DestResponse);
+          this.getHistories();
           return ({ dataState: DataState.LOADED_STATE, appData: this.destResponse_cur.value})
         }),
         startWith(({ dataState: DataState.LOADING_STATE, appData: this.destResponse_cur.value}))
@@ -44,13 +48,19 @@ export class AppComponent implements OnInit {
   }
 
   // add the current resturant by input 
-  addAdditionItem(additionalForm: NgForm): void {
-    this.additionalItem$ = this.destapiService.saveAdditionalItem$(additionalForm.value as AdditionItem)
+  addAdditionItem(additionItemForm: NgForm): void {
+    console.log(additionItemForm.value);
+    this.additionalItems$ = this.destapiService.saveAdditionalItem$(additionItemForm.value as AdditionItem)
       .pipe(
         map(result=>{
-          return ({ dataState: DataState.LOADED_STATE, appData: result.data.saveItem})
+          if(result.status !== "400") {
+            this.additionItems.next(
+              [...this.additionItems.value, result.data.saveItem]
+            );
+          }
+          return ({ dataState: DataState.LOADED_STATE, appData: this.additionItems.value})
         }),
-        startWith(({ dataState: DataState.LOADING_STATE}))
+        startWith(({ dataState: DataState.LOADING_STATE, appData: this.additionItems.value}))
       ) 
   }
 
@@ -58,14 +68,51 @@ export class AppComponent implements OnInit {
     this.additionalItems$ = this.destapiService.getAdditionalItems$
       .pipe(
         map(result=>{
-          return ({ dataState: DataState.LOADED_STATE, appData: result.data.additionalItems})
+          this.additionItems.next(result.data.additionalItems)
+          return ({ dataState: DataState.LOADED_STATE, appData: this.additionItems.value})
         }),
-        startWith(({ dataState: DataState.LOADING_STATE}))
+        startWith(({ dataState: DataState.LOADING_STATE, appData: this.additionItems.value}))
       ) 
   }
 
+  deleteAdditionItem(code:string):void {
+    this.additionalItems$ = this.destapiService.deleteAdditionalItem$(code)
+      .pipe(
+        map(result=>{
+          console.log(result);
+          if(result.status !== "400") {
+            this.additionItems.next(
+              this.additionItems.value.filter(item=> item.code !== code)
+            );
+          }
+          return ({ dataState: DataState.LOADED_STATE, appData: this.additionItems.value})
+        }),
+        startWith(({ dataState: DataState.LOADING_STATE, appData: this.additionItems.value}))
+      ) 
+  }
 
+  getHistories():void{
+    this.histories$ = this.destapiService.getFindingHistories$
+     .pipe(
+       map(result=>{
+         this.histories.next(result.data.histories);
+         return ({ dataState: DataState.LOADED_STATE, appData: this.histories.value})
+       })
+     )
+  }
 
-  // fetch all history items for only display purpose
+  deleteHistory(code:string): void{
+    this.histories$ = this.destapiService.deleteHistory$(code)
+    .pipe(
+      map(result=>{
+        if(result.status !== "400") {
+          this.histories.next(
+            this.histories.value.filter(history=>history.code!==code)
+            );
+        }
+        return ({ dataState: DataState.LOADED_STATE, appData: this.histories.value})
+      })
+    )
+  }
 
 }
