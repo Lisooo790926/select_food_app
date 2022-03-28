@@ -18,7 +18,7 @@ Hard to select the food in the afternoon, try to develop the function to select 
 
 
 ## Wireframe 
-![image](https://user-images.githubusercontent.com/48560984/159118882-d1701f20-ecdf-4b19-a7ff-64a948f29fe2.png)
+<img src="https://user-images.githubusercontent.com/48560984/159118882-d1701f20-ecdf-4b19-a7ff-64a948f29fe2.png" width="500">
 
 ## Current Result 
 ![image](https://user-images.githubusercontent.com/48560984/160310125-0473b7a6-e3eb-469d-8d8c-4b51d596cc54.png)
