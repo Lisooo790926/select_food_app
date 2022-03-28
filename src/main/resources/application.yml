@@ -10,7 +10,7 @@ google:
   searchnearby:
     url: /nearbysearch/json
   api:
-    key:
+    key: 
 
 spring:
   datasource:

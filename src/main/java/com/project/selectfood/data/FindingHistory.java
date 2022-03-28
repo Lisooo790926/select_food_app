@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,5 +23,5 @@ public class FindingHistory {
     private String name;
 
     @Column(unique = true)
-    private LocalDateTime date;
+    private Date date;
 }

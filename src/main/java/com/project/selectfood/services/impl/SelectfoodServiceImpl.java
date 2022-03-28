@@ -21,7 +21,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.net.URISyntaxException;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -162,6 +161,7 @@ public class SelectfoodServiceImpl implements SelectfoodService {
     @Transactional
     @Override
     public AdditionalItem save(AdditionalItem item) {
+        if (Objects.isNull(item) || Strings.isBlank(item.getName())) return null;
         return additionItemsRepo.save(item);
     }
 
@@ -245,7 +245,7 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
     private FindingHistory populate(final FindingPlace place) {
         FindingHistory history = new FindingHistory();
-        history.setDate(LocalDateTime.now());
+        history.setDate(new Date());
         history.setName(place.getName());
         return history;
     }
