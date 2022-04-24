@@ -26,8 +26,6 @@ export class HomeComponent implements OnInit {
   additionItems = new BehaviorSubject<AdditionItem[]>(null);
   histories = new BehaviorSubject<FindingHistory[]>(null);
 
-  @Output() logoutEvent = new EventEmitter<{isLogin:boolean}>();
-
   constructor(private destapiService: DestapiService, private router: Router) { }
 
   ngOnInit(): void {
@@ -119,7 +117,7 @@ export class HomeComponent implements OnInit {
   logout(): void {
     console.log("remove your session id");
     sessionStorage.removeItem("token");
-    this.logoutEvent.emit({isLogin : false});
+    this.router.navigate(['/']);
   }
 
 }
