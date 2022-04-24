@@ -45,10 +45,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<AdditionalItem> additionalItems;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<FindingHistory> findingHistories;
 
     public User(String username, String email, String password) {

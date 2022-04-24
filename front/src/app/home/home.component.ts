@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
     this.additionalItems$ = this.destapiService.saveAdditionalItem$(additionItemForm.value as AdditionItem)
       .pipe(
         map(result=>{
-          if(result.status !== "400") {
+          if(result.status === "OK") {
             this.additionItems.next(
               [...this.additionItems.value, result.data.saveItem]
             );
@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
       .pipe(
         map(result=>{
           console.log(result);
-          if(result.status !== "400") {
+          if(result.status === "OK") {
             this.additionItems.next(
               this.additionItems.value.filter(item=> item.code !== code)
             );
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
     this.histories$ = this.destapiService.deleteHistory$(code)
     .pipe(
       map(result=>{
-        if(result.status !== "400") {
+        if(result.status === "OK") {
           this.histories.next(
             this.histories.value.filter(history=>history.code!==code)
             );

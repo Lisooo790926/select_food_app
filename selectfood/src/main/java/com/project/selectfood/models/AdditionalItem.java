@@ -23,4 +23,8 @@ public class AdditionalItem {
 
     @Column(columnDefinition = "int default 1")
     private int count;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
 }
