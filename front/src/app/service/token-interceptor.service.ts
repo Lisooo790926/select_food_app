@@ -26,7 +26,9 @@ export class TokenInterceptorService implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       catchError((err) => {
+        sessionStorage.removeItem("token");
         const error = err.error.message || err.statusText;
+        console.log("remove token because catching error ", error)
         return throwError(error);
       })
     );

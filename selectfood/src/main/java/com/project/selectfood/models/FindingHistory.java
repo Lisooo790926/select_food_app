@@ -1,6 +1,7 @@
 package com.project.selectfood.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,9 @@ public class FindingHistory {
     @NotEmpty(message = "Restaurant name")
     private String name;
 
-    @Column(unique = true)
     private Date date;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;

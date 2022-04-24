@@ -1,5 +1,6 @@
 package com.project.selectfood.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,13 +18,13 @@ public class AdditionalItem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long code;
 
-    @Column(unique = true)
     @NotEmpty(message = "Restaurant name")
     private String name;
 
     @Column(columnDefinition = "int default 1")
     private int count;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
