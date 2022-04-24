@@ -6,12 +6,13 @@ import com.project.selectfood.models.User;
 import com.project.selectfood.payload.request.LoginRequest;
 import com.project.selectfood.payload.request.SignupRequest;
 import com.project.selectfood.payload.response.JwtResponse;
-import com.project.selectfood.payload.response.MessageResponse;
+import com.project.selectfood.payload.response.Response;
 import com.project.selectfood.repository.RoleRepository;
 import com.project.selectfood.repository.UserRepository;
 import com.project.selectfood.security.jwt.JwtUtils;
 import com.project.selectfood.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,7 +50,7 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Response> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -61,25 +63,34 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+        return ResponseEntity.ok(Response.builder()
+                .message("successfully login ")
+                .data(Map.of("token", new JwtResponse(jwt,
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        roles)))
+                .status(HttpStatus.OK)
+                .build()
+        );
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<Response> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.ok(Response.builder()
+                    .message("Error User already exited")
+                    .data(Map.of("result", false))
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build());
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity.ok(Response.builder()
+                    .message("Error Email already exited")
+                    .data(Map.of("result", false))
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build());
         }
 
         // Create new user's account
@@ -120,6 +131,10 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(Response.builder()
+                .message("create User success")
+                .data(Map.of("result", true))
+                .status(HttpStatus.OK)
+                .build());
     }
 }
