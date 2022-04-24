@@ -3,6 +3,8 @@ package com.project.selectfood.services.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.selectfood.constants.SelectFoodConstant;
 import com.project.selectfood.data.*;
+import com.project.selectfood.models.AdditionalItem;
+import com.project.selectfood.models.FindingHistory;
 import com.project.selectfood.repository.AdditionItemsRepo;
 import com.project.selectfood.repository.FindingHistoryRepo;
 import com.project.selectfood.services.SelectfoodService;

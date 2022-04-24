@@ -1,4 +1,5 @@
-package com.project.selectfood.data;
+package com.project.selectfood.models;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,21 +7,21 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdditionalItem {
+public class FindingHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long code;
 
-    @Column(unique = true)
     @NotEmpty(message = "Restaurant name")
     private String name;
 
-    @Column(columnDefinition = "int default 1")
-    private int count;
+    @Column(unique = true)
+    private Date date;
 }

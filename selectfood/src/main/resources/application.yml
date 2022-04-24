@@ -27,3 +27,8 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+
+selectfood:
+  app:
+    jwtSecret: selectfoodsecritykey
+    jwtExpirationMs: 86400000

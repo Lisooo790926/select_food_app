@@ -1,4 +1,4 @@
-package com.project.selectfood.data;
+package com.project.selectfood.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
