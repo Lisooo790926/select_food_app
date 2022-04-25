@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CustomResponse } from '../interface/custom.response';
 import { User } from '../interface/user';
 import { UserResponse } from '../interface/user.response';
@@ -11,12 +12,10 @@ import { UserResponse } from '../interface/user.response';
 export class AuthService {
 
   // todo change to use environment variables
-  private readonly apiUrl = 'http://localhost:8083';
-
   constructor(private http: HttpClient) { }
 
   userLoginResponse$ = (user: User) => <Observable<CustomResponse>>
-  this.http.post<CustomResponse>(`${this.apiUrl}/api/auth/signin`, user)
+  this.http.post<CustomResponse>(`${environment.apiUrl}/api/auth/signin`, user)
     .pipe(
       map(result=> {
         if(result && result.status === "OK") {
@@ -31,7 +30,7 @@ export class AuthService {
     )
 
   userSignupResponse$ = (user: User) => <Observable<CustomResponse>>
-  this.http.post<CustomResponse>(`${this.apiUrl}/api/auth/signup`, user)
+  this.http.post<CustomResponse>(`${environment.apiUrl}/api/auth/signup`, user)
     .pipe(
       tap(console.log),
       catchError(this.handleError)

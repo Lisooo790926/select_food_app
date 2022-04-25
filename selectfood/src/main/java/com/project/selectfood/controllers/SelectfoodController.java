@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "${allowed.origin}", allowCredentials = "true")
 @RequestMapping("/selectfood")
 @RequiredArgsConstructor
 public class SelectfoodController {

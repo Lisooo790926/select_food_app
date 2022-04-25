@@ -32,3 +32,6 @@ selectfood:
   app:
     jwtSecret: selectfoodsecritykey
     jwtExpirationMs: 86400000
+
+allowed:
+  origin: http://localhost:4200
