@@ -8,13 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptorService } from './service/token-interceptor.service';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
   declarations: [
     AppComponent, 
     HomeComponent, 
-    LoginComponent
+    LoginComponent, RegisterComponent
   ],
   imports: [
     BrowserModule,
