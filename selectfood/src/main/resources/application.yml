@@ -10,11 +10,11 @@ google:
   searchnearby:
     url: /nearbysearch/json
   api:
-    key: 
+    key: ${google.api.key}
 
 spring:
   datasource:
-    password: password
+    password: ${h2.password}
     url: jdbc:h2:mem:testdb
     username: sa
   jpa:
@@ -30,8 +30,8 @@ spring:
 
 selectfood:
   app:
-    jwtSecret: selectfoodsecritykey
+    jwtSecret: ${jwtsecrt.password}
     jwtExpirationMs: 86400000
 
 allowed:
-  origin: http://localhost:4200
+  origin: ${allowed.origin}
