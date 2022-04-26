@@ -34,4 +34,4 @@ selectfood:
     jwtExpirationMs: 86400000
 
 allowed:
-  origin: http://localhost:4200
+  origin: https://select-food-front.herokuapp.com/
