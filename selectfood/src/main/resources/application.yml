@@ -34,4 +34,4 @@ selectfood:
     jwtExpirationMs: 86400000
 
 allowed:
-  origin: https://select-food-front.herokuapp.com/
+  origin: https://select-food-front.herokuapp.com
