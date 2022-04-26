@@ -1,7 +1,7 @@
 package com.project.selectfood.services;
 
-import com.project.selectfood.data.AdditionalItem;
-import com.project.selectfood.data.FindingHistory;
+import com.project.selectfood.models.AdditionalItem;
+import com.project.selectfood.models.FindingHistory;
 import com.project.selectfood.data.FindingPlace;
 import com.project.selectfood.data.FindingResult;
 

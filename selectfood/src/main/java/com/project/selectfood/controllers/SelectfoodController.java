@@ -1,9 +1,9 @@
 package com.project.selectfood.controllers;
 
-import com.project.selectfood.data.AdditionalItem;
+import com.project.selectfood.models.AdditionalItem;
 import com.project.selectfood.data.FindingPlace;
 import com.project.selectfood.data.FindingResult;
-import com.project.selectfood.data.Response;
+import com.project.selectfood.payload.response.Response;
 import com.project.selectfood.services.impl.SelectfoodServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "${allowed.origin}", allowCredentials = "true")
 @RequestMapping("/selectfood")
 @RequiredArgsConstructor
 public class SelectfoodController {

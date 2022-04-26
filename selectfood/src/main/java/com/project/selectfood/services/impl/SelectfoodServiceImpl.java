@@ -2,9 +2,15 @@ package com.project.selectfood.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.selectfood.constants.SelectFoodConstant;
-import com.project.selectfood.data.*;
+import com.project.selectfood.data.FindingPlace;
+import com.project.selectfood.data.FindingResult;
+import com.project.selectfood.data.Location;
+import com.project.selectfood.models.AdditionalItem;
+import com.project.selectfood.models.FindingHistory;
+import com.project.selectfood.models.User;
 import com.project.selectfood.repository.AdditionItemsRepo;
 import com.project.selectfood.repository.FindingHistoryRepo;
+import com.project.selectfood.repository.UserRepository;
 import com.project.selectfood.services.SelectfoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +22,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -34,6 +42,7 @@ public class SelectfoodServiceImpl implements SelectfoodService {
     private final ObjectMapper objectMapper;
     private final AdditionItemsRepo additionItemsRepo;
     private final FindingHistoryRepo findingHistoryRepo;
+    private final UserRepository userRepository;
 
     @Value("${google.host.schema}")
     private String hostSchema;
@@ -109,8 +118,6 @@ public class SelectfoodServiceImpl implements SelectfoodService {
     @Override
     public List<FindingPlace> filterResult(final Map<String, String> attributes, final FindingResult result) {
 
-        if (CollectionUtils.isEmpty(result.getResults())) return Collections.emptyList();
-
         try {
             final String rating = attributes.get(SelectFoodConstant.RATING);
             final String user_ratings_total = attributes.get(SelectFoodConstant.USER_RATE_TOTAL);
@@ -155,13 +162,14 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
     @Override
     public List<AdditionalItem> getAllItems() {
-        return additionItemsRepo.findAll();
+        return additionItemsRepo.findAllByUser(getCurrentUser());
     }
 
     @Transactional
     @Override
     public AdditionalItem save(AdditionalItem item) {
         if (Objects.isNull(item) || Strings.isBlank(item.getName())) return null;
+        item.setUser(getCurrentUser());
         return additionItemsRepo.save(item);
     }
 
@@ -173,13 +181,16 @@ public class SelectfoodServiceImpl implements SelectfoodService {
 
     @Override
     public List<FindingHistory> getAllHistories() {
-        return findingHistoryRepo.findAll();
+        return findingHistoryRepo.findAllByUser(getCurrentUser());
     }
 
     @Transactional
     @Override
     public FindingHistory save(FindingPlace place) {
-        return findingHistoryRepo.save(populate(place));
+
+        final FindingHistory history = populate(place);
+        history.setUser(getCurrentUser());
+        return findingHistoryRepo.save(history);
     }
 
     @Transactional
@@ -198,8 +209,15 @@ public class SelectfoodServiceImpl implements SelectfoodService {
         }
     }
 
+    private User getCurrentUser() {
+        final UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
+    }
+
     private List<FindingPlace> filterPlacesByLimit(final FindingResult result, final String rating,
                                                    final String userRatingsTotal) {
+
+        if (CollectionUtils.isEmpty(result.getResults())) return new ArrayList<>();
 
         double rating_limit = Strings.isNotBlank(rating) && rating.matches("^[0-9]+.?[0-9]*$") ?
                 Double.parseDouble(rating) : SelectFoodConstant.DEFAULT_RATING;

@@ -10,6 +10,7 @@ export interface CustomResponse {
         histories?: FindingHistory[],
         additionalItems?: AdditionItem[],
         saveItem?: AdditionItem,
-        errorMessage?: string
+        errorMessage?: string, 
+        apitoken? :string
     };
 }
