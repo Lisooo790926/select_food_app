@@ -1,4 +1,4 @@
-# select_food_
+# select_food_app
 Deploy url : https://select-food-front.herokuapp.com/login
 
 ## Background
