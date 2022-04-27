@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT}
 google:
   host:
     schema: https
@@ -10,11 +10,11 @@ google:
   searchnearby:
     url: /nearbysearch/json
   api:
-    key:
+    key: ${google.api.key}
 
 spring:
   datasource:
-    password: passwordd
+    password: ${h2.password}
     url: jdbc:h2:mem:testdb
     username: sa
   jpa:
@@ -26,11 +26,11 @@ spring:
       path: /h2-console
       settings:
         trace: false
-        web-allow-others: false
+        web-allow-others: true
 
 selectfood:
   app:
-    jwtSecret: jwtsecrt
+    jwtSecret: ${jwtsecrt.password}
     jwtExpirationMs: 86400000
 
 allowed:
