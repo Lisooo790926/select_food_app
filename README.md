@@ -1,20 +1,23 @@
 # select_food_back
+Deploy url : https://select-food-front.herokuapp.com/login
 
 ## Background
 Hard to select the food in the afternoon, try to develop the function to select the food randomly
 
 ## User story 
-1. User can input address 
-2. User can input rating (default > 4)
-3. User can input rating total (defaul > 100)
-4. User can input how many random times
-5. User can input radius 
-6. User can click submit 
-7. User gets result in result windows
-8. User can add additional item for random select
-9. User can remove additional item if they don't want
-10. User can see their histories in histories list
-11. User can remove history if there is too much
+0. User can reigister and login 
+1. Each User can see their own page
+2. User can input address 
+3. User can input rating (default > 4)
+4. User can input rating total (defaul > 100)
+5. User can input how many random times
+6. User can input radius 
+7. User can click submit 
+8. User gets result in result windows
+9. User can add additional item for random select
+10. User can remove additional item if they don't want
+11. User can see their histories in histories list
+12. User can remove history if there is too much
 
 
 ## Wireframe 
@@ -25,6 +28,6 @@ Hard to select the food in the afternoon, try to develop the function to select 
 
 
 ## Tools
-**back** : spring boot maven project  
-**front** : angular  
-**db** : postgres  
+**back** : spring boot + spring security + spring JPA 
+**front** : angular 
+**db** : h2 db  
