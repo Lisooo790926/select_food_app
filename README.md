@@ -32,6 +32,6 @@ Select food page :
 
 
 ## Tools
-**back** : spring boot + spring security + spring JPA 
-**front** : angular 
-**db** : h2 db  
+**back** : spring boot + spring security + spring JPA\
+**front** : angular\
+**db** : h2 db
