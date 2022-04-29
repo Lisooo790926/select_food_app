@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         http.headers().frameOptions().disable();
+        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null);
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

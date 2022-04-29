@@ -26,7 +26,7 @@ spring:
       path: /h2-console
       settings:
         trace: false
-        web-allow-others: false
+        web-allow-others: true
 
 selectfood:
   app:
@@ -34,4 +34,4 @@ selectfood:
     jwtExpirationMs: 86400000
 
 allowed:
-  origin: ${allowed.origin}
+  origin: https://select-food-front.herokuapp.com
