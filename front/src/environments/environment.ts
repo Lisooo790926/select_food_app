@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false, 
-  apiUrl: 'https://select-food-back.herokuapp.com'
+  apiUrl: 'http://localhost:8083'
 };
 
 /*
