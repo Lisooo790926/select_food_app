@@ -79,7 +79,7 @@
             <div class="scrollit">
                 <table class="table" *ngIf="(histories$ | async) as histories">
                     <tbody>
-                        <ng-container *ngFor="let history of histories.appData.reverse(); let i=index">
+                        <ng-container *ngFor="let history of histories.appData; let i=index">
                             <tr>
                                 <td>{{history.name}}</td>
                                 <td>{{history.date | date :'short'}}</td>

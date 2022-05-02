@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
     this.histories$ = this.destapiService.getFindingHistories$
      .pipe(
        map(result=>{
-         this.histories.next(result.data.histories);
+         this.histories.next(result.data.histories.reverse());
          return ({ dataState: DataState.LOADED_STATE, appData: this.histories.value})
        })
      )
